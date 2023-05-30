@@ -25,7 +25,7 @@ export default {
             vec4 color = tex1 + tex2;
             vec4 pColor = step(trailThreshold, color) * color; // 텍스트 자국 제거
 
-            float opacity = step(trailThreshold, pColor.r + pColor.g + pColor.b) * pColor.a;
+            float opacity = step(trailThreshold, pColor.r + pColor.g + pColor.b) * pColor.a; // 배경 투명화
 
             gl_FragColor = vec4(pColor.rgb, opacity);
         }

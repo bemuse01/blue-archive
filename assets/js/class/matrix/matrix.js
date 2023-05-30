@@ -2,6 +2,7 @@ import * as THREE from '../../lib/three.module.js'
 import Method from '../../method/method.js'
 
 import Text from './build/text.js'
+import ScreenBurn from './build/screenBurn.js'
 
 export default class{
     constructor({app, element}){
@@ -14,6 +15,9 @@ export default class{
         this.cameraPosition = [0, 0, 100]
         this.size = {el: {w: 0, h: 0}, obj: {w: 0, h: 0}}
         this.params = [
+            {
+                module: ScreenBurn
+            },
             {
                 module: Text
             }
