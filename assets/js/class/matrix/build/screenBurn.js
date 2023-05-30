@@ -7,7 +7,7 @@ export default class{
         this.group = group
         this.size = size
 
-        this.strength = 22
+        this.strength = 20
         this.color = new THREE.Color(this.strength / 255, this.strength / 255, this.strength / 255)
         this.burnSize = 5
 
