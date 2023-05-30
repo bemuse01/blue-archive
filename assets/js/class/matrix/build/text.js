@@ -17,7 +17,7 @@ export default class{
         this.fontSize = 24
         this.count = 30
         this.texts = Array.from({length: this.count}, (_, i) => new Text(this.context, this.size.el, this.fontSize, this.colors[i % this.colors.length]))
-        this.masterOpacity = 0.8
+        this.masterOpacity = 1.0
         this.shadowOpacity = 0.4
         this.trailThreshold = 0.1
         this.shadowPosition = new THREE.Vector2(0.0025, 0) // uv position
@@ -73,6 +73,8 @@ export default class{
 
         this.canvas.width = this.size.el.w
         this.canvas.height = this.size.el.h
+
+        this.plane.get().scale.set(this.size.obj.w, this.size.obj.h, 1)
 
         this.texts.forEach(text => text.resize(this.size.el))
     }

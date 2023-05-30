@@ -16,7 +16,6 @@ export default class{
         this.startTime = window.performance.now()
         this.currentTime = window.performance.now()
         this.delay = 30
-        this.play = true
     }
 
 
@@ -34,14 +33,14 @@ export default class{
 
     // animate
     animate(){
-        this.setTimeout()
+        this.interval()
     }
-    setTimeout(){
+    interval(){
         this.currentTime = window.performance.now()
 
         if(this.currentTime - this.startTime > this.delay){
             this.draw()
-            // this.play = false
+            this.startTime = window.performance.now()
         }
     }
     draw(){
@@ -59,7 +58,5 @@ export default class{
             this.x = ~~(Math.random() * (w - fontSize))
             this.y = 0
         }
-
-        this.startTime = window.performance.now()
     }
 }
