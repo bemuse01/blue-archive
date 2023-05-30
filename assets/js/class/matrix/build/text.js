@@ -17,6 +17,10 @@ export default class{
         this.fontSize = 24
         this.count = 30
         this.texts = Array.from({length: this.count}, (_, i) => new Text(this.context, this.size.el, this.fontSize, this.colors[i % this.colors.length]))
+        this.masterOpacity = 0.8
+        this.shadowOpacity = 0.4
+        this.trailThreshold = 0.1
+        this.shadowPosition = new THREE.Vector2(0.0025, 0) // uv position
 
         this.init()
     }
@@ -48,7 +52,11 @@ export default class{
                 fragmentShader: Shader.fragment,
                 transparent: true,
                 uniforms: {
-                    uTexture: {value: texture}
+                    trailThreshold: {value: this.trailThreshold},
+                    masterOpacity: {value: this.masterOpacity},
+                    shadowOpacity: {value: this.shadowOpacity},
+                    shadowPosition: {value: this.shadowPosition},
+                    uTexture: {value: texture},
                 }
             }
         })

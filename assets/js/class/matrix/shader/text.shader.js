@@ -10,17 +10,21 @@ export default {
     `,
     fragment: `
         uniform sampler2D uTexture;
+        uniform float masterOpacity;
+        uniform float shadowOpacity;
+        uniform float trailThreshold;
+        uniform vec2 shadowPosition;
 
         varying vec2 vUv;
 
         void main(){
             vec4 tex1 = texture(uTexture, vUv);
-            vec4 tex2 = texture(uTexture, vUv - vec2(0.0025, 0.0));
-            tex2.rgb *= 0.4;
+            vec4 tex2 = texture(uTexture, vUv - shadowPosition);
+            tex2.rgb *= shadowOpacity;
 
             vec4 color = tex1 + tex2;
-            vec4 pColor = step(0.1, color) * color; // 텍스트 자국 제거
-            
+            vec4 pColor = step(trailThreshold, color) * color; // 텍스트 자국 제거
+            pColor.a *= masterOpacity;
 
             gl_FragColor = pColor;
         }
