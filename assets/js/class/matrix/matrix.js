@@ -1,8 +1,9 @@
 import * as THREE from '../../lib/three.module.js'
 import Method from '../../method/method.js'
 
-import Text from './build/text.js'
-import ScreenBurn from './build/screenBurn.js'
+import Text from './comp/text.js'
+import ScreenBurn from './comp/screenBurn.js'
+import Noise from './comp/noise.js'
 
 export default class{
     constructor({app, element}){
@@ -20,6 +21,9 @@ export default class{
             },
             {
                 module: Text
+            },
+            {
+                module: Noise
             }
         ]
         this.groups = []
