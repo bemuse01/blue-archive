@@ -1,3 +1,5 @@
+import ShaderMethod from '../../../method/method.shader.js'
+
 export default {
     vertex: `
         void main(){
@@ -14,7 +16,11 @@ export default {
         uniform float masterOpacity;
         uniform float boundStrength;
 
+        ${ShaderMethod.snoise3D()}
+        ${ShaderMethod.executeNormalizing()}
+
         void main(){
+            float x = gl_FragCoord.x;
             float y = gl_FragCoord.y;
             float idx = y / 100.0 - fract(y / 100.0);
 
@@ -27,11 +33,21 @@ export default {
 
             // float opacity = 1.0 - smoothstep(y, uy, uy + height);
 
+            // float noise = snoise3D(vec3(x * 0.0025, 1.0, time * 0.0001));
+            // float aboveStd = executeNormalizing(noise, 0.25, 0.5, -1.0, 1.0);
+            // float aboveStd2 = executeNormalizing(noise, 0.95, 1.0, -1.0, 1.0);
+
             float std = clamp(step(uy, y), boundStrength, 1.0);
 
-            float opacity = 1.0 - distance(y, uy) / (height * std);
+            // float opacity = 1.0 - pow(distance(y, uy) / (height * std), 0.35);
 
-            gl_FragColor = vec4(vec3(1), opacity * masterOpacity);
+            float dist = distance(y, uy);
+            float pDist = smoothstep(0.0, height * 0.6, dist) * dist;
+            float opacity = 1.0 - pow(pDist / (height * std), 0.3);
+
+            vec4 color = vec4(vec3(1), opacity);
+
+            gl_FragColor = color;
         }
     `
 }
