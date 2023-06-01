@@ -1,3 +1,4 @@
+import { AdditiveBlending } from '../../../lib/three.module.js'
 import Plane from '../../objects/plane.js'
 import Shader from '../shader/noise.shader.js'
 
@@ -8,8 +9,9 @@ export default class{
 
         this.y = 0
         this.velocity = 2.5
-        this.bound = 200
-        this.masterOpacity = 0.4
+        this.height = 0.2
+        this.masterOpacity = 0.5
+        this.boundStrength = 0.05
 
         this.init()
     }
@@ -35,10 +37,12 @@ export default class{
                 vertexShader: Shader.vertex,
                 fragmentShader: Shader.fragment,
                 transparent: true,
+                blending: AdditiveBlending,
                 uniforms: {
                     time: {value: 0},
                     uy: {value: 0},
-                    bound: {value: this.bound},
+                    boundStrength: {value: this.boundStrength},
+                    height: {value: this.height * this.size.el.h},
                     masterOpacity: {value: this.masterOpacity}
                 }
             }
@@ -62,8 +66,10 @@ export default class{
     animate(){
         const time = window.performance.now()
 
+        const height = this.height * this.size.el.h
+
         this.y -= this.velocity
-        if(this.y < -this.bound) this.y = this.size.el.h + this.bound
+        if(this.y < -height) this.y = this.size.el.h + height
 
         this.plane.setUniform('time', time)
         this.plane.setUniform('uy', this.y)

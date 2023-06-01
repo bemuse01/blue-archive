@@ -10,8 +10,9 @@ export default {
 
         uniform float time;
         uniform float uy;
-        uniform float bound;
+        uniform float height;
         uniform float masterOpacity;
+        uniform float boundStrength;
 
         void main(){
             float y = gl_FragCoord.y;
@@ -24,11 +25,11 @@ export default {
 
             // vec4 color = vec4(vec3(1), opacity * 0.05);
 
-            // float opacity = 1.0 - smoothstep(y, uy, uy + bound);
+            // float opacity = 1.0 - smoothstep(y, uy, uy + height);
 
-            float std = clamp(step(uy, y), 0.05, 1.0);
+            float std = clamp(step(uy, y), boundStrength, 1.0);
 
-            float opacity = 1.0 - distance(y, uy) / (bound * std);
+            float opacity = 1.0 - distance(y, uy) / (height * std);
 
             gl_FragColor = vec4(vec3(1), opacity * masterOpacity);
         }
