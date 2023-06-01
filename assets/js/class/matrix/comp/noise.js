@@ -9,9 +9,9 @@ export default class{
 
         this.y = 0
         this.velocity = 2.5
-        this.height = 0.175
+        this.height = 0.15
         this.masterOpacity = 0.5
-        this.boundStrength = 0.05
+        this.boundStrength = 0.2
 
         this.init()
     }
