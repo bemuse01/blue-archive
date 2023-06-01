@@ -4,6 +4,7 @@ import Method from '../../method/method.js'
 import Text from './comp/text.js'
 import ScreenBurn from './comp/screenBurn.js'
 import Noise from './comp/noise.js'
+import Noise2 from './comp/noise2.js'
 
 export default class{
     constructor({app, element}){
@@ -24,6 +25,9 @@ export default class{
             },
             {
                 module: Noise
+            },
+            {
+                module: Noise2
             }
         ]
         this.groups = []

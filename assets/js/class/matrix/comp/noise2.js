@@ -1,15 +1,12 @@
 import Plane from '../../objects/plane.js'
-import Shader from '../shader/noise.shader.js'
+import Shader from '../shader/noise2.shader.js'
 
 export default class{
     constructor({group, size}){
         this.group = group
         this.size = size
 
-        this.y = 0
-        this.velocity = 2.5
-        this.bound = 200
-        this.masterOpacity = 0.4
+        this.masterOpacity = 0.075
 
         this.init()
     }
@@ -37,8 +34,6 @@ export default class{
                 transparent: true,
                 uniforms: {
                     time: {value: 0},
-                    uy: {value: 0},
-                    bound: {value: this.bound},
                     masterOpacity: {value: this.masterOpacity}
                 }
             }
@@ -62,10 +57,6 @@ export default class{
     animate(){
         const time = window.performance.now()
 
-        this.y -= this.velocity
-        if(this.y < -this.bound) this.y = this.size.el.h + this.bound
-
         this.plane.setUniform('time', time)
-        this.plane.setUniform('uy', this.y)
     }
 }
