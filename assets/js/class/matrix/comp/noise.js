@@ -58,6 +58,8 @@ export default class{
     resize(size){
         this.size = size
 
+        this.plane.setUniform('height', this.height * this.size.el.h)
+
         this.plane.get().scale.set(this.size.obj.w, this.size.obj.h, 1)
     }
 
