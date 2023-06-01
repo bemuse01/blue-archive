@@ -7,9 +7,9 @@ export default class{
         this.size = size
 
         this.y = 0
-        this.velocity = 1
+        this.velocity = 2
         this.bound = 200
-        this.masterOpacity = 0.3
+        this.masterOpacity = 0.125
 
         this.init()
     }
