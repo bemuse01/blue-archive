@@ -18,7 +18,7 @@ export default {
         void main(){
             vec2 coord = gl_FragCoord.xy;
 
-            float opacity = (snoise3D(vec3(coord * 0.1, time * 0.01)) + 1.0) * 0.5;
+            float opacity = (snoise3D(vec3(coord * 0.15, time * 0.01)) + 1.0) * 0.5;
 
             vec4 color = vec4(vec3(1), opacity * masterOpacity);
 
