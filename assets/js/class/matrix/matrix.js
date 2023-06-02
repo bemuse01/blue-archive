@@ -20,15 +20,16 @@ export default class{
             {
                 module: ScreenBurn
             },
+            // {
+            //     module: Noise2
+            // },
             {
                 module: Text
             },
             {
                 module: Noise
             },
-            {
-                module: Noise2
-            }
+            
         ]
         this.groups = []
         this.comps = []

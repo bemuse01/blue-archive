@@ -20,6 +20,7 @@ export default {
         ${ShaderMethod.executeNormalizing()}
 
         void main(){
+            vec2 coord = gl_FragCoord.xy;
             float x = gl_FragCoord.x;
             float y = gl_FragCoord.y;
             float idx = y / 100.0 - fract(y / 100.0);
@@ -41,11 +42,15 @@ export default {
 
             // float opacity = 1.0 - pow(distance(y, uy) / (height * std), 0.35);
 
+            float rn = (snoise3D(vec3(coord * 0.15, time * 0.01)) + 1.0) * 0.5 * 0.1;
+
+            // vec4 noise = vec4(vec3(1), opacity * masterOpacity);
+
             float dist = distance(y, uy);
             float pDist = smoothstep(0.0, height * 0.6, dist) * dist;
             float opacity = 1.0 - pow(pDist / (height * std), 0.3);
 
-            vec4 color = vec4(vec3(1), opacity);
+            vec4 color = vec4(vec3(1), opacity + rn);
 
             gl_FragColor = color;
         }
