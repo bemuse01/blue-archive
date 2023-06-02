@@ -37,7 +37,7 @@ export default {
 
             // float amount = 0.025;
             // float speed = 0.025;
-            float offset = snoise3D(vec3(coord * 0.025, time * 0.1)) * 0.025 * distortion;
+            float offset = snoise3D(vec3(coord * 0.03, time * 0.1)) * 0.0125 * distortion;
             vec2 distortedUV = vec2(uv.x + offset, uv.y);
 
             vec4 tex1 = texture(uTexture, distortedUV);
