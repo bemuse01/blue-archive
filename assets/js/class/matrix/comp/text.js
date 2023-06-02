@@ -4,9 +4,10 @@ import Shader from '../shader/text.shader.js'
 import Text from '../subClass/text.js'
 
 export default class{
-    constructor({group, size}){
+    constructor({group, size, rtScene}){
         this.group = group
         this.size = size
+        this.rtScene = rtScene
 
         this.canvas = document.createElement('canvas')
         this.canvas.width = this.size.el.w
@@ -21,6 +22,7 @@ export default class{
         this.shadowOpacity = 0.4
         this.trailThreshold = 0.1
         this.shadowPosition = new THREE.Vector2(0.0025, 0) // uv position
+        this.chance = 0.99
 
         this.init()
     }
@@ -67,6 +69,7 @@ export default class{
 
         this.plane.get().scale.set(w, h, 1)
 
+        this.rtScene.add(this.plane.get())
         this.group.add(this.plane.get())
     }
 
@@ -95,8 +98,8 @@ export default class{
         this.updateUniform()
     }
     updateUniform(){
-        const chance = Math.random()
-        if(chance > 0.9925){
+        const rand = Math.random()
+        if(rand > this.chance){
             this.plane.setUniform('distortion', 1)
         }else{
             this.plane.setUniform('distortion', 0)

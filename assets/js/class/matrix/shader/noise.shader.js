@@ -2,8 +2,12 @@ import ShaderMethod from '../../../method/method.shader.js'
 
 export default {
     vertex: `
+        varying vec2 vUv;
+
         void main(){
             gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+
+            vUv = uv;
         }
     `,
     fragment: `
@@ -15,6 +19,9 @@ export default {
         uniform float height;
         uniform float masterOpacity;
         uniform float boundStrength;
+        uniform sampler2D tDiffuse;
+
+        varying vec2 vUv;
 
         ${ShaderMethod.snoise3D()}
         ${ShaderMethod.executeNormalizing()}
@@ -24,6 +31,8 @@ export default {
             float x = gl_FragCoord.x;
             float y = gl_FragCoord.y;
             float idx = y / 100.0 - fract(y / 100.0);
+
+            vec4 diffuse = texture(tDiffuse, vUv);
 
             // float gap = step(0.5, mod(idx, 2.0));
             // vec4 color = vec4(uColor, opacity);
@@ -43,8 +52,6 @@ export default {
             // float opacity = 1.0 - pow(distance(y, uy) / (height * std), 0.35);
 
             float rn = (snoise3D(vec3(coord * 0.15, time * 0.01)) + 1.0) * 0.5 * 0.1;
-
-            // vec4 noise = vec4(vec3(1), opacity * masterOpacity);
 
             float dist = distance(y, uy);
             float pDist = smoothstep(0.0, height * 0.6, dist) * dist;

@@ -4,7 +4,7 @@ import Method from '../../method/method.js'
 import Text from './comp/text.js'
 import ScreenBurn from './comp/screenBurn.js'
 import Noise from './comp/noise.js'
-import Noise2 from './comp/noise2.js'
+// import Noise2 from './comp/noise2.js'
 
 export default class{
     constructor({app, element}){
@@ -59,6 +59,11 @@ export default class{
         this.camera = new THREE.PerspectiveCamera(this.fov, width / height, this.near, this.far)
         this.camera.position.set(...this.cameraPosition)
 
+        this.rtScene = new THREE.Scene()
+        this.rtCamera = new THREE.PerspectiveCamera(this.fov, width / height, this.near, this.far)
+        this.rtCamera.position.set(...this.cameraPosition)
+        this.rtt = new THREE.WebGLRenderTarget(width, height, {format: THREE.RGBAFormat})
+
         this.size.el.w = width
         this.size.el.h = height
         this.size.obj.w = Method.getVisibleWidth(this.camera, 0)
@@ -76,6 +81,8 @@ export default class{
                     renderer: this.renderer,
                     camera: this.camera,
                     comps: this.comps,
+                    rtScene: this.rtScene,
+                    rtt: this.rtt,
                     ...param
                 })
             )
@@ -130,6 +137,11 @@ export default class{
 
         this.camera.lookAt(this.scene.position)
         this.renderer.render(this.scene, this.camera)
+
+        this.renderer.setRenderTarget(this.rtt)
+        this.renderer.clear()
+        this.renderer.render(this.rtScene, this.rtCamera)
+        this.renderer.setRenderTarget(null)
     }
     animateObject(){
         for(const comp of this.comps){
@@ -151,6 +163,8 @@ export default class{
 
         this.camera.aspect = width / height
         this.camera.updateProjectionMatrix()
+
+        this.rtt.setSize(width, height)
 
         this.size.el.w = width
         this.size.el.h = height

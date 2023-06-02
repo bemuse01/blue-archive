@@ -3,9 +3,10 @@ import Plane from '../../objects/plane.js'
 import Shader from '../shader/noise.shader.js'
 
 export default class{
-    constructor({group, size}){
+    constructor({group, size, rtt}){
         this.group = group
         this.size = size
+        this.rtt = rtt
 
         this.y = 0
         this.velocity = 1.5
@@ -39,6 +40,7 @@ export default class{
                 transparent: true,
                 blending: AdditiveBlending,
                 uniforms: {
+                    tDiffuse: {value: this.rtt.texture},
                     time: {value: 0},
                     uy: {value: 0},
                     boundStrength: {value: this.boundStrength},
