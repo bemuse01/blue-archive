@@ -57,6 +57,10 @@ export default class{
                     shadowOpacity: {value: this.shadowOpacity},
                     shadowPosition: {value: this.shadowPosition},
                     uTexture: {value: texture},
+                    resolution: {value: new THREE.Vector2(this.size.el.w, this.size.el.h)},
+                    time: {value: 0},
+                    distortion: {value: 0},
+                    distortedColor: {value: new THREE.Color(0xf71bff)}
                 }
             }
         })
@@ -75,6 +79,7 @@ export default class{
         this.canvas.height = this.size.el.h
 
         this.plane.get().scale.set(this.size.obj.w, this.size.obj.h, 1)
+        this.plane.setUniform('resolution', new THREE.Vector2(this.size.el.w, this.size.el.h))
 
         this.texts.forEach(text => text.resize(this.size.el))
     }
@@ -82,7 +87,20 @@ export default class{
 
     // animate
     animate(){
+        const time = window.performance.now()
+
+        this.plane.setUniform('time', time)
+
         this.drawTexture()
+        this.updateUniform()
+    }
+    updateUniform(){
+        const chance = Math.random()
+        if(chance > 0.9925){
+            this.plane.setUniform('distortion', 1)
+        }else{
+            this.plane.setUniform('distortion', 0)
+        }
     }
     drawTexture(){
         const {fontSize} = this
