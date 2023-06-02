@@ -10,8 +10,8 @@ export default class{
             ...this.asciiRange(65, 90), // A - Z
         ]
 
-        this.x = Math.random() * this.size.w - fontSize
-        this.y = Math.random() * this.size.h - fontSize
+        this.x = Math.random() * this.size.w - ~~(this.fontSize * this.size.h)
+        this.y = Math.random() * this.size.h - ~~(this.fontSize * this.size.h)
 
         this.startTime = window.performance.now()
         this.currentTime = window.performance.now()

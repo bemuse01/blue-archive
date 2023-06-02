@@ -12,7 +12,7 @@ export default class{
         this.velocity = 1.5
         this.height = 0.15
         this.masterOpacity = 0.8
-        this.boundStrength = 0.01
+        this.boundStrength = 0.001
 
         this.init()
     }
