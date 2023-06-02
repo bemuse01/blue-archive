@@ -70,7 +70,7 @@ export default class{
         this.plane.get().scale.set(w, h, 1)
 
         this.rtScene.add(this.plane.get())
-        this.group.add(this.plane.get())
+        this.group.add(this.plane.get().clone())
     }
 
 

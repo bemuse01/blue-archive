@@ -32,8 +32,6 @@ export default {
             float y = gl_FragCoord.y;
             float idx = y / 100.0 - fract(y / 100.0);
 
-            vec4 diffuse = texture(tDiffuse, vUv);
-
             // float gap = step(0.5, mod(idx, 2.0));
             // vec4 color = vec4(uColor, opacity);
 
@@ -57,9 +55,19 @@ export default {
             float pDist = smoothstep(0.0, height * 0.6, dist) * dist;
             float opacity = 1.0 - pow(pDist / (height * std), 0.3);
 
-            vec4 color = vec4(vec3(1), opacity + rn);
+            float powedDist = pow(dist / height, -1.5);
+            vec2 distortedUV = vUv + vec2(powedDist * 0.001, 0.0);
+            vec4 diffuse = texture(tDiffuse, distortedUV);
 
-            gl_FragColor = color;
+            float c = diffuse.r + diffuse.g + diffuse.b;
+            // vec4 color = vec4(c == 0.0 ? vec3(1) : diffuse.rgb * 2.0, opacity + rn);
+            vec4 color = vec4(vec3(1), opacity + rn);
+            
+            diffuse.a *= opacity;
+
+            vec4 finalColor = color + diffuse;
+
+            gl_FragColor = finalColor;
         }
     `
 }
