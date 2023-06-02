@@ -64,7 +64,8 @@ export default {
             // vec4 color = vec4(c == 0.0 ? vec3(1) : diffuse.rgb * 2.0, opacity + rn);
             vec4 color = vec4(vec3(opacity + rn), 1.0);
             
-            // diffuse.a *= opacity;
+            diffuse.a *= opacity;
+            diffuse.rgb += 1.0 * diffuse.a;
 
             // vec4 finalColor = color + diffuse;
 
