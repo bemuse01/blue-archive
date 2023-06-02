@@ -15,7 +15,7 @@ export default class{
         this.context = this.canvas.getContext('2d')
 
         this.colors = ['#2cfadf', '#f32288']
-        this.fontSize = 24
+        this.fontSize = 0.026
         this.count = 30
         this.texts = Array.from({length: this.count}, (_, i) => new Text(this.context, this.size.el, this.fontSize, this.colors[i % this.colors.length]))
         this.masterOpacity = 1.0
@@ -41,7 +41,7 @@ export default class{
     createObject(){
         const {w, h} = this.size.obj
 
-        const texture = new THREE.CanvasTexture(this.canvas)
+        const texture = this.createTexture()
 
         this.plane = new Plane({
             width: 1,
@@ -72,6 +72,9 @@ export default class{
         this.rtScene.add(this.plane.get())
         this.group.add(this.plane.get().clone())
     }
+    createTexture(){
+        return new THREE.CanvasTexture(this.canvas)
+    }
 
 
     // resize
@@ -81,10 +84,18 @@ export default class{
         this.canvas.width = this.size.el.w
         this.canvas.height = this.size.el.h
 
+        this.resizeTexture()
+
         this.plane.get().scale.set(this.size.obj.w, this.size.obj.h, 1)
         this.plane.setUniform('resolution', new THREE.Vector2(this.size.el.w, this.size.el.h))
 
         this.texts.forEach(text => text.resize(this.size.el))
+    }
+    resizeTexture(){
+        const texture = this.plane.getUniform('uTexture')
+        texture.dispose()
+
+        this.plane.setUniform('uTexture', this.createTexture())
     }
 
 
@@ -111,16 +122,16 @@ export default class{
         const {w, h} = this.size.el
 
         // this.context.globalCompositeOperation = 'color-dodge'
+        const fs = ~~(fontSize * h)
 
         this.context.fillStyle = 'rgba(0, 0, 0, 0.05)'
         this.context.fillRect(0, 0, w, h)
 
         this.context.textAlign = 'center'
-        this.context.font = `${fontSize}px MonomaniacOne`
+        this.context.font = `${fs}px MonomaniacOne`
         this.texts.forEach(text => text.animate())
 
         const texture = this.plane.getUniform('uTexture')
-
         texture.needsUpdate = true
     }
 }

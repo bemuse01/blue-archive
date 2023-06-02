@@ -43,6 +43,8 @@ export default class{
     init(){
         this.create()
         this.animate()
+
+        window.addEventListener('resize', () => this.resize(), false)
     }
 
 

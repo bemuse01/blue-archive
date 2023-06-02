@@ -47,15 +47,17 @@ export default class{
         const {size, fontSize, chars} = this
         const {w, h} = size
 
+        const fs = ~~(fontSize * h)
+
         const char = chars[~~(Math.random() * chars.length)]
         
         this.context.fillStyle = this.color
         this.context.fillText(char, this.x, this.y)
 
-        this.y += fontSize
-
-        if(this.y > h + fontSize) {
-            this.x = ~~(Math.random() * (w - fontSize))
+        this.y += fs
+        
+        if(this.y > h + fs) {
+            this.x = ~~(Math.random() * (w - fs))
             this.y = 0
         }
     }

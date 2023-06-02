@@ -48,8 +48,6 @@ export default class{
     resize(){
         const {width, height} = this.box.getBoundingClientRect()
 
-        console.log(width, height)
-
         this.renderer.setSize(width, height)
     }
 }
