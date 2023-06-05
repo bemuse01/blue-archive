@@ -26,9 +26,9 @@ export default class{
             {
                 module: Text
             },
-            {
-                module: Noise
-            },
+            // {
+            //     module: Noise
+            // },
             
         ]
         this.groups = []
@@ -140,10 +140,10 @@ export default class{
         this.camera.lookAt(this.scene.position)
         this.renderer.render(this.scene, this.camera)
 
-        this.renderer.setRenderTarget(this.rtt)
-        this.renderer.clear()
-        this.renderer.render(this.rtScene, this.rtCamera)
-        this.renderer.setRenderTarget(null)
+        // this.renderer.setRenderTarget(this.rtt)
+        // this.renderer.clear()
+        // this.renderer.render(this.rtScene, this.rtCamera)
+        // this.renderer.setRenderTarget(null)
     }
     animateObject(){
         for(const comp of this.comps){

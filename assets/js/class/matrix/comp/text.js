@@ -14,6 +14,7 @@ export default class{
         this.canvas.height = this.size.el.h
         this.context = this.canvas.getContext('2d')
 
+        // text
         this.colors = ['#2cfadf', '#f32288']
         this.fontSize = 0.026
         this.count = 30
@@ -23,6 +24,13 @@ export default class{
         this.trailThreshold = 0.1
         this.shadowPosition = new THREE.Vector2(0.0025, 0) // uv position
         this.chance = 0.99
+
+        // white line
+        this.y = 0
+        this.velocity = 1.5
+        this.height = 0.15
+        this.lineOpacity = 0.8
+        this.boundStrength = 0.001 // y 기준 아래쪽 라인 없애는 용도
 
         this.init()
     }
@@ -69,8 +77,8 @@ export default class{
 
         this.plane.get().scale.set(w, h, 1)
 
-        // this.group.add(this.plane.get())
-        this.rtScene.add(this.plane.get())
+        this.group.add(this.plane.get())
+        // this.rtScene.add(this.plane.get())
     }
     createTexture(){
         return new THREE.CanvasTexture(this.canvas)
