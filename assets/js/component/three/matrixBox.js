@@ -3,7 +3,7 @@ import Matrix from '../../class/matrix/matrix.js'
 export default {
     template: `
         <div 
-            id="canvas-box"
+            id="matrix-box"
             :style="boxStyle"
             :ref="el => box = el" 
         >

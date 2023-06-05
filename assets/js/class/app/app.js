@@ -38,9 +38,9 @@ export default class{
         requestAnimationFrame(() => this.animate())
     }
     render(){
-        this.renderer.setScissorTest(false)
-        this.renderer.clear(true, true)
-        this.renderer.setScissorTest(true)
+        // this.renderer.setScissorTest(false)
+        // this.renderer.clear(true, true)
+        // this.renderer.setScissorTest(true)
     }
 
 

@@ -12,9 +12,13 @@ export default {
             :style="appStyle"
         >
 
-            <canvas-box />
+            <div :style="objectStyle">
 
-            <matrix-box />
+                <canvas-box />
+
+                <matrix-box />
+
+            </div>
 
         </div>
     `,
@@ -28,7 +32,18 @@ export default {
             top: '0',
             left: '0',
             width: '100%',
-            height: '100%'
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
+        })
+
+
+        // object
+        const objectStyle = ref({
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
         })
 
 
@@ -47,7 +62,8 @@ export default {
 
 
         return{
-            appStyle
+            appStyle,
+            objectStyle
         }
     }
 }
