@@ -15,8 +15,17 @@ export default class{
         // text
         this.colors = ['#2cfadf', '#f32288']
         this.fontSize = 0.026
+        this.minFontSize = 12
+        this.maxFontSize = 30
         this.count = 30
-        this.texts = Array.from({length: this.count}, (_, i) => new Text(this.context, this.size.el, this.fontSize, this.colors[i % this.colors.length]))
+        this.texts = Array.from({length: this.count}, (_, i) => new Text({
+            context: this.context, 
+            size: this.size.el, 
+            fontSize: this.fontSize, 
+            color: this.colors[i % this.colors.length],
+            minFontSize: this.minFontSize,
+            maxFontSize: this.maxFontSize,
+        }))
         this.masterOpacity = 1.0
         this.shadowOpacity = 0.4
         this.trailThreshold = 0.1
