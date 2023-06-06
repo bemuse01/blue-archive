@@ -195,9 +195,10 @@ export default class{
             const img = this.images[this.emblemIdx]
             const width = img.width
             const height = img.height
-            const x = w / 2 - width / 2
-            const y = h / 2 - height / 2
-            this.context.drawImage(img, x, y)
+            const size = ~~(Math.min(w, h) * 0.75)
+            const x = w / 2 - size / 2
+            const y = h / 2 - size / 2
+            this.context.drawImage(img, 0, 0, width, height, x, y, size, size)
         }
 
         if(this.countDown < 0){
