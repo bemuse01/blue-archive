@@ -1,1 +1,1 @@
-[# blue-archive](https://bemuse01.github.io/blue-archive/)
+https://bemuse01.github.io/blue-archive/
