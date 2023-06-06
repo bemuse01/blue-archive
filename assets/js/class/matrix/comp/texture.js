@@ -35,7 +35,7 @@ export default class{
 
         // emblem
         this.delta = 0.025
-        this.countDown = Math.random() * 7 + 7
+        this.countDown = 2
         this.emblemIdx = 0
 
         this.throttle = {
