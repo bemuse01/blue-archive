@@ -160,11 +160,11 @@ export default class{
         this.animation = requestAnimationFrame(() => this.animate())
     }
     render(){
-        const rect = this.element.getBoundingClientRect()
-        const width = rect.right - rect.left
-        const height = rect.bottom - rect.top
-        const left = rect.left
-        const bottom = this.renderer.domElement.clientHeight - rect.bottom
+        // const rect = this.element.getBoundingClientRect()
+        // const width = rect.right - rect.left
+        // const height = rect.bottom - rect.top
+        // const left = rect.left
+        // const bottom = this.renderer.domElement.clientHeight - rect.bottom
 
         // this.renderer.setScissor(left, bottom, width, height)
         // this.renderer.setViewport(left, bottom, width, height)
@@ -197,6 +197,9 @@ export default class{
 
         this.camera.aspect = width / height
         this.camera.updateProjectionMatrix()
+
+        this.rtCamera.aspect = width / height
+        this.rtCamera.updateProjectionMatrix()
 
         this.rtt.setSize(width, height)
         

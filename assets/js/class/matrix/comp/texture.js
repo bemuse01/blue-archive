@@ -155,7 +155,7 @@ export default class{
         }
     }
     drawTexture(){
-        this.throttleFrame(() => this.clearContext(), 'clear')
+        this.clearContext()
         this.drawText()
         this.throttleFrame(() => this.drawEmblem(), 'emblem')
     }
