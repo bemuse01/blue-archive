@@ -4,16 +4,15 @@ import Shader from '../shader/text.shader.js'
 import Text from '../subClass/text.js'
 
 export default class{
-    constructor({group, size, rtScene}){
+    constructor({group, size, rtScene, canvas, context, images}){
         this.group = group
         this.size = size
         this.rtScene = rtScene
+        this.canvas = canvas
+        this.context = context
+        this.images = images
 
-        this.canvas = document.createElement('canvas')
-        this.canvas.width = this.size.el.w
-        this.canvas.height = this.size.el.h
-        this.context = this.canvas.getContext('2d')
-
+        // text
         this.colors = ['#2cfadf', '#f32288']
         this.fontSize = 0.026
         this.count = 30
@@ -23,6 +22,23 @@ export default class{
         this.trailThreshold = 0.1
         this.shadowPosition = new THREE.Vector2(0.0025, 0) // uv position
         this.chance = 0.99
+        this.textPlay = true
+
+        // emblem
+        this.delta = 0.025
+        this.countDown = Math.random() * 7 + 7
+        this.emblemIdx = 0
+
+        this.throttle = {
+            emblem: {
+                startTime: window.performance.now(),
+                delay: 30
+            },
+            clear: {
+                startTime: window.performance.now(),
+                delay: 0
+            }
+        }
 
         this.init()
     }
@@ -81,9 +97,6 @@ export default class{
     resize(size){
         this.size = size
 
-        this.canvas.width = this.size.el.w
-        this.canvas.height = this.size.el.h
-
         this.resizeTexture()
 
         this.plane.get().scale.set(this.size.obj.w, this.size.obj.h, 1)
@@ -99,14 +112,30 @@ export default class{
     }
 
 
+    // 
+    throttleFrame(callback, name){
+        const {startTime, delay} = this.throttle[name]
+
+        const currentTime = window.performance.now()
+
+        if(currentTime - startTime > delay){
+            callback()
+            this.throttle[name].startTime = window.performance.now()
+        }
+    }
+
+
     // animate
     animate(){
+        const texture = this.plane.getUniform('uTexture')
         const time = window.performance.now()
 
         this.plane.setUniform('time', time)
 
         this.drawTexture()
         this.updateUniform()
+        
+        texture.needsUpdate = true
     }
     updateUniform(){
         const rand = Math.random()
@@ -117,21 +146,54 @@ export default class{
         }
     }
     drawTexture(){
-        const {fontSize} = this
-
+        this.throttleFrame(() => this.clearContext(), 'clear')
+        this.drawText()
+        this.throttleFrame(() => this.drawEmblem(), 'emblem')
+    }
+    clearContext(){
         const {w, h} = this.size.el
-
-        // this.context.globalCompositeOperation = 'color-dodge'
-        const fs = ~~(fontSize * h)
-
+        
         this.context.fillStyle = 'rgba(0, 0, 0, 0.05)'
         this.context.fillRect(0, 0, w, h)
+    }
+    drawText(){
+        if(!this.textPlay) return
+        
+        const {fontSize} = this
+        const {h} = this.size.el
+
+        const fs = ~~(fontSize * h)
 
         this.context.textAlign = 'center'
         this.context.font = `${fs}px MonomaniacOne`
         this.texts.forEach(text => text.animate())
+    }
+    drawEmblem(){
+        const {w, h} = this.size.el
 
-        const texture = this.plane.getUniform('uTexture')
-        texture.needsUpdate = true
+        this.countDown -= this.delta
+
+        if(this.countDown < 0.75){
+            this.textPlay = false
+
+            this.context.fillStyle = `hsla(${180 + Math.random() * 220}, 100%, 30%, 1)`
+            this.context.fillRect(0, 0, w, h)
+
+            if(this.countDown > 0.4){
+                this.emblemIdx = ~~(Math.random() * this.images.length)
+            }
+
+            const img = this.images[this.emblemIdx]
+            const width = img.width
+            const height = img.height
+            const x = w / 2 - width / 2
+            const y = h / 2 - height / 2
+            this.context.drawImage(img, x, y)
+        }
+
+        if(this.countDown < 0){
+            this.textPlay = true
+            this.countDown = Math.random() * 7 + 7
+        }
     }
 }

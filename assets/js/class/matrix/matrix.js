@@ -1,7 +1,7 @@
 import * as THREE from '../../lib/three.module.js'
 import Method from '../../method/method.js'
 
-import Text from './comp/text.js'
+import Texture from './comp/texture.js'
 import ScreenBurn from './comp/screenBurn.js'
 import Noise from './comp/noise.js'
 // import Noise2 from './comp/noise2.js'
@@ -24,7 +24,7 @@ export default class{
             //     module: Noise2
             // },
             {
-                module: Text
+                module: Texture
             },
             {
                 module: Noise
@@ -35,12 +35,31 @@ export default class{
         this.comps = []
         this.build = new THREE.Group()
 
+        this.canvas = null
+        this.context = null
+
+        this.images = []
+        this.sources = [
+            './assets/src/aby.png',
+            './assets/src/ari.png',
+            './assets/src/geh.png',
+            './assets/src/hya.png',
+            './assets/src/mil.png',
+            './assets/src/red.png',
+            './assets/src/sha.png',
+            './assets/src/srt.png',
+            './assets/src/tri.png',
+            './assets/src/val.png',
+        ]
+
         this.init()
     }
 
 
     // init
-    init(){
+    async init(){
+        this.images = await this.getImages()
+
         this.create()
         this.animate()
 
@@ -50,8 +69,18 @@ export default class{
 
     // create
     create(){
+        this.createCanvas()
         this.createRenderObject()
         this.createObject()
+    }
+    createCanvas(){
+        const {width, height} = this.element.getBoundingClientRect()
+
+        this.canvas = document.createElement('canvas')
+        this.canvas.width = width
+        this.canvas.height = height
+
+        this.context = this.canvas.getContext('2d')
     }
     createRenderObject(){
         const {width, height} = this.element.getBoundingClientRect()
@@ -85,6 +114,9 @@ export default class{
                     comps: this.comps,
                     rtScene: this.rtScene,
                     rtt: this.rtt,
+                    canvas: this.canvas,
+                    context: this.context,
+                    images: this.images,
                     ...param
                 })
             )
@@ -167,6 +199,9 @@ export default class{
         this.camera.updateProjectionMatrix()
 
         this.rtt.setSize(width, height)
+        
+        this.canvas.width = width
+        this.canvas.height = height
 
         this.size.el.w = width
         this.size.el.h = height
