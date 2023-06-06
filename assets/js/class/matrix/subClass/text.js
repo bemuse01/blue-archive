@@ -34,6 +34,14 @@ export default class{
     // resize
     resize(size){
         this.size = size
+        const {h} = this.size
+
+        const {fontSize, minFontSize, maxFontSize} = this
+
+        const fs = Method.clamp(~~(fontSize * h), minFontSize, maxFontSize)
+
+        this.x = Math.random() * this.size.w - fs
+        this.y = Math.random() * this.size.h - fs
     }
 
 
