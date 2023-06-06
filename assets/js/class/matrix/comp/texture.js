@@ -15,7 +15,7 @@ export default class{
         // text
         this.colors = ['#2cfadf', '#f32288']
         this.fontSize = 0.026
-        this.minFontSize = 12
+        this.minFontSize = 15
         this.maxFontSize = 30
         this.count = 30
         this.texts = Array.from({length: this.count}, (_, i) => new Text({
